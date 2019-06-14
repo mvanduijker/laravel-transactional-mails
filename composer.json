@@ -1,0 +1,53 @@
+{
+    "name": "mvanduijker/laravel-transactional-mails",
+    "description": "Send mails after DB transaction is committed",
+    "keywords": [
+        "laravel",
+        "mail",
+        "mailable",
+        "database",
+        "transaction"
+    ],
+    "authors": [
+        {
+            "name": "Mark van Duijker",
+            "email": "mark@duyker.nl",
+            "homepage": "https://github.com/mvanduijker",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/database": "^5.8",
+        "illuminate/mail": "^5.8"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.0",
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Duijker\\LaravelTransactionalMails\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Duijker\\LaravelTransactionalMails\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Duijker\\LaravelTransactionalMails\\TransactionalMailsServiceProvider"
+            ]
+        }
+    }
+}
