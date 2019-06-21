@@ -4,7 +4,7 @@ namespace Duijker\LaravelTransactionalMails\Tests\Support;
 
 use Duijker\LaravelTransactionalMails\TransactionalMailable;
 
-class DummyMail extends TransactionalMailable
+class DummyTransactionalMail extends TransactionalMailable
 {
     public function build()
     {

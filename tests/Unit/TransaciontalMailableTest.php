@@ -2,7 +2,7 @@
 
 namespace Duijker\LaravelTransactionalMails\Tests\Unit;
 
-use Duijker\LaravelTransactionalMails\Tests\Support\DummyMail;
+use Duijker\LaravelTransactionalMails\Tests\Support\DummyTransactionalMail;
 use Duijker\LaravelTransactionalMails\Tests\TestCase;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Mail\Transport\ArrayTransport;
@@ -25,7 +25,7 @@ class TransaciontalMailableTest extends TestCase
     public function it_sends_mail_after_db_commit()
     {
         DB::beginTransaction();
-        Mail::to('user@example.com')->send(new DummyMail());
+        Mail::to('user@example.com')->send(new DummyTransactionalMail());
         $this->assertCount(0, $this->mailDriver->messages());
         DB::commit();
 
@@ -38,7 +38,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::fake();
 
         DB::beginTransaction();
-        Mail::to('user@example.com')->queue(new DummyMail());
+        Mail::to('user@example.com')->queue(new DummyTransactionalMail());
         Queue::assertNothingPushed();
         DB::commit();
 
@@ -51,7 +51,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::fake();
 
         DB::beginTransaction();
-        Mail::to('user@example.com')->later(now()->addMinutes(10), new DummyMail());
+        Mail::to('user@example.com')->later(now()->addMinutes(10), new DummyTransactionalMail());
         Queue::assertNothingPushed();
         DB::commit();
 
@@ -62,7 +62,7 @@ class TransaciontalMailableTest extends TestCase
     public function it_does_not_sends_mail_after_db_rollback()
     {
         DB::beginTransaction();
-        Mail::to('user@example.com')->send(new DummyMail());
+        Mail::to('user@example.com')->send(new DummyTransactionalMail());
         $this->assertCount(0, $this->mailDriver->messages());
         DB::rollBack();
 
@@ -75,7 +75,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::fake();
 
         DB::beginTransaction();
-        Mail::to('user@example.com')->queue(new DummyMail());
+        Mail::to('user@example.com')->queue(new DummyTransactionalMail());
         Queue::assertNothingPushed();
         DB::rollBack();
 
@@ -88,7 +88,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::fake();
 
         DB::beginTransaction();
-        Mail::to('user@example.com')->later(now()->addMinutes(10), new DummyMail());
+        Mail::to('user@example.com')->later(now()->addMinutes(10), new DummyTransactionalMail());
         Queue::assertNothingPushed();
         DB::rollBack();
 
@@ -101,7 +101,7 @@ class TransaciontalMailableTest extends TestCase
         DB::beginTransaction();
         DB::beginTransaction();
 
-        Mail::to('user@example.com')->send(new DummyMail());
+        Mail::to('user@example.com')->send(new DummyTransactionalMail());
         $this->assertCount(0, $this->mailDriver->messages());
 
         DB::commit();
@@ -114,7 +114,7 @@ class TransaciontalMailableTest extends TestCase
 
     public function it_directly_sends_mail_when_after_transactions_property_is_false()
     {
-        $mail = new DummyMail();
+        $mail = new DummyTransactionalMail();
         $mail->afterTransactions = false;
 
         DB::beginTransaction();
@@ -126,7 +126,7 @@ class TransaciontalMailableTest extends TestCase
     /** @test */
     public function it_directly_sends_mail_when_not_in_transaction()
     {
-        Mail::to('user@example.com')->send(new DummyMail());
+        Mail::to('user@example.com')->send(new DummyTransactionalMail());
 
         $this->assertCount(1, $this->mailDriver->messages());
     }
