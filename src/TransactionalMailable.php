@@ -2,7 +2,6 @@
 
 namespace Duijker\LaravelTransactionalMails;
 
-use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Contracts\Queue\Factory as Queue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +10,7 @@ class TransactionalMailable extends Mailable
 {
     public $afterTransactions = true;
 
-    public function send(MailerContract $mailer)
+    public function send($mailer)
     {
         if (DB::transactionLevel() && $this->afterTransactions) {
             resolve(TransactionalMailableQueue::class)->add(function () use ($mailer) {

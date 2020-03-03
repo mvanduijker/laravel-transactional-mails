@@ -12,13 +12,9 @@ use Illuminate\Support\Facades\Queue;
 
 class TransaciontalMailableTest extends TestCase
 {
-    /** @var ArrayTransport */
-    private $mailDriver;
-
-    protected function setUp(): void
+    protected function mailTransport(): ArrayTransport
     {
-        parent::setUp();
-        $this->mailDriver = $this->app->make('swift.transport');
+        return app('mailer')->getSwiftMailer()->getTransport();
     }
 
     /** @test */
@@ -26,10 +22,10 @@ class TransaciontalMailableTest extends TestCase
     {
         DB::beginTransaction();
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
-        $this->assertCount(0, $this->mailDriver->messages());
+        $this->assertCount(0, $this->mailTransport()->messages());
         DB::commit();
 
-        $this->assertCount(1, $this->mailDriver->messages());
+        $this->assertCount(1, $this->mailTransport()->messages());
     }
 
     /** @test */
@@ -63,10 +59,10 @@ class TransaciontalMailableTest extends TestCase
     {
         DB::beginTransaction();
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
-        $this->assertCount(0, $this->mailDriver->messages());
+        $this->assertCount(0, $this->mailTransport()->messages());
         DB::rollBack();
 
-        $this->assertCount(0, $this->mailDriver->messages());
+        $this->assertCount(0, $this->mailTransport()->messages());
     }
 
     /** @test */
@@ -102,14 +98,14 @@ class TransaciontalMailableTest extends TestCase
         DB::beginTransaction();
 
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
-        $this->assertCount(0, $this->mailDriver->messages());
+        $this->assertCount(0, $this->mailTransport()->messages());
 
         DB::commit();
-        $this->assertCount(0, $this->mailDriver->messages());
+        $this->assertCount(0, $this->mailTransport()->messages());
 
         DB::commit();
 
-        $this->assertCount(1, $this->mailDriver->messages());
+        $this->assertCount(1, $this->mailTransport()->messages());
     }
 
     public function it_directly_sends_mail_when_after_transactions_property_is_false()
@@ -120,7 +116,7 @@ class TransaciontalMailableTest extends TestCase
         DB::beginTransaction();
         Mail::to('user@example.com')->send($mail);
 
-        $this->assertCount(1, $this->mailDriver->messages());
+        $this->assertCount(1, $this->mailTransport()->messages());
     }
 
     /** @test */
@@ -128,6 +124,6 @@ class TransaciontalMailableTest extends TestCase
     {
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
 
-        $this->assertCount(1, $this->mailDriver->messages());
+        $this->assertCount(1, $this->mailTransport()->messages());
     }
 }
