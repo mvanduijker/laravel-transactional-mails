@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-transactional-mails` will be documented in this file
 
+## 1.3.0 - 2020-03-03
+
+- Added support for Laravel 7
+
 ## 1.2.0 - 2020-01-07
 
 - Added support php 7.4
