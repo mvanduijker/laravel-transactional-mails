@@ -7,9 +7,10 @@
 
 Send your mails after database transaction is committed. 
 
-Will fix issue when you want to send an e-mail within a transaction and the transaction fails, the mail would have been send. 
-Also when queueing a mail within a transaction and the queue picks up the mail before the transaction has been committed, the mail might
-have incomplete data.
+This package prevents for e-mails being sent within a transaction when the transaction fails.
+It will buffer the emails (or queued emails) and sends (or queues) them after the transaction is committed. 
+Especially sending emails in the background within a transaction and the job picks up the email before the transaction has
+committed the job might retrieve invalid data.
 
 
 ## Installation
