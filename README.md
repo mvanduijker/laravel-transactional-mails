@@ -1,7 +1,7 @@
 # Laravel Transactional Mails
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mvanduijker/laravel-transactional-mails.svg?style=flat-square)](https://packagist.org/packages/mvanduijker/laravel-transactional-mails)
-[![Build Status](https://img.shields.io/travis/mvanduijker/laravel-transactional-mails/master.svg?style=flat-square)](https://travis-ci.org/mvanduijker/laravel-transactional-mails)
+![Build Status](https://github.com/mvanduijker/laravel-transactional-mails/workflows/Run%20tests/badge.svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/mvanduijker/laravel-transactional-mails.svg?style=flat-square)](https://packagist.org/packages/mvanduijker/laravel-transactional-mails)
 
 
