@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-transactional-mails` will be documented in this file
 
+## 1.5.0 - 2021-02-06
+
+- added support for php 8
+
 ## 1.4.0 - 2020-09-08
 
 - Added support for Laravel 8
