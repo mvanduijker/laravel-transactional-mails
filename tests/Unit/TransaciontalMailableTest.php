@@ -4,6 +4,7 @@ namespace Duijker\LaravelTransactionalMails\Tests\Unit;
 
 use Duijker\LaravelTransactionalMails\Tests\Support\DummyTransactionalMail;
 use Duijker\LaravelTransactionalMails\Tests\TestCase;
+use Illuminate\Mail\Mailer;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Mail\Transport\ArrayTransport;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,16 @@ class TransaciontalMailableTest extends TestCase
 {
     protected function mailTransport(): ArrayTransport
     {
-        return app('mailer')->getSwiftMailer()->getTransport();
+        /** @var Mailer $mailer */
+        $mailer = app('mailer');
+
+        // pre laravel 9
+        if (method_exists($mailer, 'getSwiftMailer')) {
+            return $mailer->getSwiftMailer()->getTransport();
+        }
+
+        // post laravel 9
+        return $mailer->getSymfonyTransport();
     }
 
     /** @test */
