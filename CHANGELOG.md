@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-transactional-mails` will be documented in this file
 
+## 1.7.0 - 2023-02-14
+
+- Add support for Laravel 10
+- Added PHP 8.2 in the pipeline
+
 ## 1.6.0 - 2021-02-16
 
 - added support for laravel 9
