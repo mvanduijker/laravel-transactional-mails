@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-transactional-mails` will be documented in this file
 
+## 1.9.0 - 2025-02-28
+
+- Add support for Laravel 12
+
 ## 1.8.0 - 2024-03-13
 
 - Add support for Laravel 11
