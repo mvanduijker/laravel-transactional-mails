@@ -10,7 +10,6 @@ use Illuminate\Mail\Transport\ArrayTransport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
-
 class TransaciontalMailableTest extends TestCase
 {
     protected function mailTransport(): ArrayTransport
@@ -27,8 +26,7 @@ class TransaciontalMailableTest extends TestCase
         return $mailer->getSymfonyTransport();
     }
 
-    /** @test */
-    public function it_sends_mail_after_db_commit()
+    public function test_it_sends_mail_after_db_commit()
     {
         DB::beginTransaction();
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
@@ -38,8 +36,7 @@ class TransaciontalMailableTest extends TestCase
         $this->assertCount(1, $this->mailTransport()->messages());
     }
 
-    /** @test */
-    public function it_queues_mail_after_db_commit()
+    public function test_it_queues_mail_after_db_commit()
     {
         Queue::fake();
 
@@ -51,8 +48,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::assertPushed(SendQueuedMailable::class);
     }
 
-    /** @test */
-    public function it_sends_mail_later_after_db_commit()
+    public function test_it_sends_mail_later_after_db_commit()
     {
         Queue::fake();
 
@@ -64,8 +60,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::assertPushed(SendQueuedMailable::class);
     }
 
-    /** @test */
-    public function it_does_not_sends_mail_after_db_rollback()
+    public function test_it_does_not_sends_mail_after_db_rollback()
     {
         DB::beginTransaction();
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
@@ -75,8 +70,7 @@ class TransaciontalMailableTest extends TestCase
         $this->assertCount(0, $this->mailTransport()->messages());
     }
 
-    /** @test */
-    public function it_does_not_queue_mail_after_db_rollback()
+    public function test_it_does_not_queue_mail_after_db_rollback()
     {
         Queue::fake();
 
@@ -88,8 +82,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::assertNothingPushed();
     }
 
-    /** @test */
-    public function it_does_not_send_mail_later_after_db_rollback()
+    public function test_it_does_not_send_mail_later_after_db_rollback()
     {
         Queue::fake();
 
@@ -101,8 +94,7 @@ class TransaciontalMailableTest extends TestCase
         Queue::assertNothingPushed();
     }
 
-    /** @test */
-    public function it_sends_mail_when_outer_transaction_is_committed()
+    public function test_it_sends_mail_when_outer_transaction_is_committed()
     {
         DB::beginTransaction();
         DB::beginTransaction();
@@ -129,8 +121,7 @@ class TransaciontalMailableTest extends TestCase
         $this->assertCount(1, $this->mailTransport()->messages());
     }
 
-    /** @test */
-    public function it_directly_sends_mail_when_not_in_transaction()
+    public function test_it_directly_sends_mail_when_not_in_transaction()
     {
         Mail::to('user@example.com')->send(new DummyTransactionalMail());
 
